@@ -13,6 +13,7 @@ import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as RideRouteImport } from './routes/ride'
 import { Route as PaymentRouteImport } from './routes/payment'
 import { Route as ImpactRouteImport } from './routes/impact'
+import { Route as HomeRouteImport } from './routes/home'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AccountRouteImport } from './routes/account'
@@ -36,6 +37,11 @@ const PaymentRoute = PaymentRouteImport.update({
 const ImpactRoute = ImpactRouteImport.update({
   id: '/impact',
   path: '/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoryRoute = HistoryRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/history': typeof HistoryRoute
+  '/home': typeof HomeRoute
   '/impact': typeof ImpactRoute
   '/payment': typeof PaymentRoute
   '/ride': typeof RideRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/history': typeof HistoryRoute
+  '/home': typeof HomeRoute
   '/impact': typeof ImpactRoute
   '/payment': typeof PaymentRoute
   '/ride': typeof RideRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/history': typeof HistoryRoute
+  '/home': typeof HomeRoute
   '/impact': typeof ImpactRoute
   '/payment': typeof PaymentRoute
   '/ride': typeof RideRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/history'
+    | '/home'
     | '/impact'
     | '/payment'
     | '/ride'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/history'
+    | '/home'
     | '/impact'
     | '/payment'
     | '/ride'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/history'
+    | '/home'
     | '/impact'
     | '/payment'
     | '/ride'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
   HistoryRoute: typeof HistoryRoute
+  HomeRoute: typeof HomeRoute
   ImpactRoute: typeof ImpactRoute
   PaymentRoute: typeof PaymentRoute
   RideRoute: typeof RideRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/impact'
       fullPath: '/impact'
       preLoaderRoute: typeof ImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/history': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
   HistoryRoute: HistoryRoute,
+  HomeRoute: HomeRoute,
   ImpactRoute: ImpactRoute,
   PaymentRoute: PaymentRoute,
   RideRoute: RideRoute,

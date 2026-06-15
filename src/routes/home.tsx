@@ -1,19 +1,19 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { MobileFrame } from "@/components/MobileFrame";
 import { MapBackground } from "@/components/MapBackground";
 import { Leaf, MapPin, Home, Briefcase, ArrowRight, ChevronDown } from "lucide-react";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/home")({
   head: () => ({
     meta: [
-      { title: "Voltaride — Electric Rides" },
+      { title: "Voltaride — Home" },
       { name: "description", content: "Book clean, all-electric rides with transparent fares and real-time tracking." },
-      { property: "og:title", content: "Voltaride — Electric Rides" },
+      { property: "og:title", content: "Voltaride — Home" },
       { property: "og:description", content: "Book clean, all-electric rides with transparent fares and real-time tracking." },
     ],
   }),
-  component: Index,
+  component: HomePage,
 });
 
 const vehicles = [
@@ -22,22 +22,20 @@ const vehicles = [
   { id: "share", name: "Volt Share", eta: "5 min", note: "Pool ride", price: 8.2 },
 ];
 
-function Index() {
+function HomePage() {
   const navigate = useNavigate();
-  const [isReady, setIsReady] = useState(false);
   const [pickup, setPickup] = useState("88 Battery Street, San Francisco");
   const [drop, setDrop] = useState("Presidio Eco Center");
   const [vehicle, setVehicle] = useState("compact");
+  const [isReady, setIsReady] = useState(false);
   const selected = vehicles.find((v) => v.id === vehicle)!;
 
   useEffect(() => {
     const loggedIn = window.localStorage.getItem("isLoggedIn") === "true";
-
     if (!loggedIn) {
       navigate({ to: "/auth" });
       return;
     }
-
     setIsReady(true);
   }, [navigate]);
 
@@ -142,13 +140,14 @@ function Index() {
             <ChevronDown className="size-4 text-zinc-400" />
           </button>
 
-          <a
-            href="/ride?vehicle=compact&fare=12.4"
+          <Link
+            to="/ride"
+            search={{ vehicle: selected.id, fare: selected.price }}
             className="w-full bg-leaf text-white py-4 rounded-2xl font-semibold text-base shadow-lg shadow-leaf/20 ring-4 ring-leaf/10 active:scale-[0.99] transition-transform flex items-center justify-center gap-2"
           >
             Confirm — ${selected.price.toFixed(2)}
             <ArrowRight className="size-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </MobileFrame>

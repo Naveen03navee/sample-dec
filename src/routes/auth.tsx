@@ -71,7 +71,19 @@ function AuthPage() {
             <button className="mb-3 text-xs font-medium text-spark">Resend code in 0:24</button>
           )}
           <button
-            onClick={() => (step === "phone" ? setStep("otp") : navigate({ to: "/" }))}
+            onClick={() => {
+              if (step === "phone") {
+                setStep("otp");
+                return;
+              }
+              const code = otp.join("");
+              if (code.length !== 4) {
+                alert("Enter the 4-digit code");
+                return;
+              }
+              window.localStorage.setItem("isLoggedIn", "true");
+              navigate({ to: "/home" });
+            }}
             className="w-full bg-leaf text-white py-4 rounded-2xl font-semibold shadow-lg shadow-leaf/20 ring-4 ring-leaf/10 flex items-center justify-center gap-2"
           >
             {step === "phone" ? "Send code" : "Verify & continue"}
